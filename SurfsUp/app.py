@@ -46,7 +46,6 @@ def welcome():
 
 @app.route("/api/v1.0/precipitation")
 def precipitaion():
-    session = Session(engine)
 
     """Return a list of all daily precipitation totals for the last year"""
     # Query daily precipitation
@@ -57,8 +56,6 @@ def precipitaion():
             filter(measurement.date >= start_date).\
             group_by(measurement.date).\
             order_by(measurement.date).all()
-   
-    session.close()
 
     # Return a dictionary with date as key and precipitation as value
     prcp_dates = []
@@ -82,6 +79,7 @@ def stations():
 
     # Convert list of tuples into normal list
     list_of_stations = list(np.ravel(stations)) 
+
     return jsonify(list_of_stations)
 
 @app.route("/api/v1.0/tobs")
